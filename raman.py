@@ -2,7 +2,7 @@ import numpy as np
 
 def main():
     na = 0.2 #Apertura numérica de la fibra óptica NA
-    a = 6 #Radio del núcleo de la fibra en micrómetros
+    a = 4.5 #Radio del núcleo de la fibra en micrómetros
 
     wl = [1.06, 1.12, 1.18, 1.24, 1.30] #Longitud de onda expresada en micrómetros
     wl_m = wl_convertion(wl) #Longitud de onda expresada en metros

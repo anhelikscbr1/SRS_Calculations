@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.pyplot import figure
 from scipy.integrate import odeint
-figure(dpi=200)
+figure(dpi=400)
 
 def main():
     time_frec()
@@ -50,20 +50,25 @@ def odes(v,z):
 
 def time_frec():
 
-    max_power = 190
-    no_points = 1000
-    t = np.linspace(-4,4,no_points)
-    gaussian = max_power*mt.e ** (-(t**2)/2)
+    max_power = 14
+    no_points = 3000
+    t = np.linspace(-30,30,no_points)
+    #gaussian = max_power*mt.e ** (-(t**2)/2)
+    FWHM = 10 
+    #gaussian = max_power * 2 ** -((2* t / FWHM ) ** 2)
+    #plt.plot(t,gaussian, 'b', label = "Gaussiano")
+    sech = max_power / (np.cosh((1.7627 * t) / (FWHM))) ** 2
+    gaussian = sech
+
     response_s = []
     response_1s = []
     response_2s = []
     response_3s = []
     response_4s = []
-    exit_value = 10
-    simulation_distance = 200
+    exit_value = 100
+    simulation_distance = 2400
     for i in range(no_points):
-    
-        #initial conditions
+       
         seed = max_power * 0.0000001
         x0 = [gaussian[i], seed,seed,seed,seed]
     
@@ -82,17 +87,16 @@ def time_frec():
         response_2s.append(float(s2_z[exit_value]))
         response_3s.append(float(s3_z[exit_value]))
         response_4s.append(float(s4_z[exit_value]))
-    
 
     plt.plot(t,response_s, 'c', label="Fuente")
     plt.plot(t,response_1s, 'y', label="Stokes 1")
     plt.plot(t,response_2s, 'g', label="Stokes 2")
     plt.plot(t,response_3s, 'r', label="Stokes 3")
     plt.plot(t,response_4s, 'm', label="Stokes 4")
-    plt.plot(t,gaussian, 'b')
-    plt.xlabel("tiempo (t)")
+    plt.plot(t,gaussian, 'b', label = "sech^2")
+    plt.xlabel("Tiempo (fs)")
     plt.ylabel("Potencia (W)")
-    plt.axis([-4, 4, 0, max_power+0.3])
+    plt.axis([-30, 30, 0, max_power + 0.1])
     plt.legend()
     plt.show()
     return
